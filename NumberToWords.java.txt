@@ -1,0 +1,93 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class NumberToWords {
+    private static final Map<Integer, String>
+            ConvertToWords = new HashMap<>();
+    static {
+        ConvertToWords.put(0, "zero");
+        ConvertToWords.put(1, "one");
+        ConvertToWords.put(2, "two");
+        ConvertToWords.put(3, "three");
+        ConvertToWords.put(4, "four");
+        ConvertToWords.put(5, "five");
+        ConvertToWords.put(6, "six");
+        ConvertToWords.put(7, "seven");
+        ConvertToWords.put(8, "eight");
+        ConvertToWords.put(9, "nine");
+        ConvertToWords.put(10, "ten");
+        ConvertToWords.put(11, "eleven");
+        ConvertToWords.put(12, "twelve");
+        ConvertToWords.put(13, "thirteen");
+        ConvertToWords.put(14, "fourteen");
+        ConvertToWords.put(15, "fifteen");
+        ConvertToWords.put(16, "sixteen");
+        ConvertToWords.put(17, "seventeen");
+        ConvertToWords.put(18, "eighteen");
+        ConvertToWords.put(19, "nineteen");
+        ConvertToWords.put(20, "twenty");
+        ConvertToWords.put(30, "thirty");
+        ConvertToWords.put(40, "forty");
+        ConvertToWords.put(50, "fifty");
+        ConvertToWords.put(60, "sixty");
+        ConvertToWords.put(70, "seventy");
+        ConvertToWords.put(80, "eighty");
+        ConvertToWords.put(90, "ninety");
+    }public static String convertToWords(int num) {
+        if (num<0){
+            System.out.println("Number should be greater than 0, please enter again");
+            Scanner sc= new Scanner(System.in);
+            int num1=sc.nextInt();
+            return convertToWords(num1);
+        }
+        if(num>999999999){
+            System.out.println("Number should be less than 999.999.999, please enter again");
+            Scanner sc= new Scanner(System.in);
+            int num1=sc.nextInt();
+            return convertToWords(num1);
+        }
+        if (num == 0) {
+            return ConvertToWords.get(num);
+        }
+
+        StringBuilder result = new StringBuilder();
+        if (num >= 1000000000) {
+            int billion = num / 1000000000;
+            result.append(convertToWords(billion)).append(" billion ");
+            num -= billion * 1000000000;
+        }
+        if (num >= 1000000) {
+            int million = num / 1000000;
+            result.append(convertToWords(million)).append(" million ");
+            num -= million * 1000000;
+        }
+        if (num >= 1000) {
+            int thousand = num / 1000;
+            result.append(convertToWords(thousand)).append(" thousand ");
+            num -= thousand * 1000;
+        }
+        if (num >= 100) {
+            int hundreds = num / 100;
+            result.append(convertToWords(hundreds)).append(" hundred ");
+            num -= hundreds * 100;
+        }
+        if (num > 0) {
+            if (num <= 20 || (num < 100 && num % 10 == 0)) {
+                result.append(ConvertToWords.get(num));
+            } else {
+                int tens = num / 10 * 10;
+                result.append(ConvertToWords.get(tens)).append(" ");
+                result.append(ConvertToWords.get(num - tens));
+            }
+        }
+        return result.toString().trim();
+    }
+    public static void main(String[] args) {
+        //I have tried to cover all cases
+        // If negative number is entered, the system will ask to enter number again,
+        // the same for bigger than 999.999.999 numbers
+        System.out.println(convertToWords(1000000000));
+
+    }
+}
